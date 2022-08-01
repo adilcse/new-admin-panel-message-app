@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card,  TextField, Typography, Button } from '@mui/material';
+import { Card,  TextField, Typography, Button, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 const style={
   width:'20rem',
@@ -9,7 +9,7 @@ borderRadius: '20px',
 
 }
 
-const ChangPassCard = ({handleSendClicked}) => {
+const ChangPassCard = ({handleSendClicked, loading}) => {
   const navigate = useNavigate()
   const [password, setPassword] = React.useState("");
   const [cpassword, setCPassword] = React.useState("");
@@ -32,6 +32,9 @@ const ChangPassCard = ({handleSendClicked}) => {
       setCPassword("");
     }
    });
+  }
+  if (loading) {
+    <CircularProgress fontSize={30} />
   }
   return (
     

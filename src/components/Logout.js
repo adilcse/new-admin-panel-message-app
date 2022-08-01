@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stack, Box } from "@mui/material";
+import { Stack, Box, CircularProgress } from "@mui/material";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -39,6 +39,9 @@ const LogOut=(props)=>{
       }
       navigate('/')
       setSelectedButton(id)
+    }
+    if (props.loading) {
+      <CircularProgress fontSize={30} />
     }
     return(
         <>

@@ -69,7 +69,7 @@ export const bootstrapApi = async() => {
     });
 }
 
-export const updateMasterActionApi = async(selected, to)=> {
+export const updateMasterActionApi = async(selected)=> {
     return fetch(BASE_URL +"/masterAction", {
         method: 'PUT',
         credentials: 'include',
@@ -77,7 +77,7 @@ export const updateMasterActionApi = async(selected, to)=> {
             'Content-Type': 'application/json'
         },
         body:JSON.stringify({
-            selected,to
+            selected,to: selected
         })
     }).then(res=>res.json())
     .catch(eror=> {

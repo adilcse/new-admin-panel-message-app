@@ -1,4 +1,4 @@
-import { Card, Stack, TextField, Typography, Button } from '@mui/material';
+import { Card, Stack, TextField, Typography, Button, CircularProgress } from '@mui/material';
 import React from 'react';
 
 const style={
@@ -11,8 +11,9 @@ const style={
     // marginTop:'2%'
 }
 
-const EditCard=({data, onClick})=>{
+const EditCard=({data, onClick, loading})=>{
     const [to, setTo] = React.useState("");
+
     const [toError, setToError] = React.useState(false);
     React.useEffect(()=> {
         if(data) {
@@ -29,6 +30,9 @@ const EditCard=({data, onClick})=>{
         }
         setToError(false)
        onClick({to})
+      }
+      if (loading) {
+        <CircularProgress fontSize={30} />
       }
     return(
         <>

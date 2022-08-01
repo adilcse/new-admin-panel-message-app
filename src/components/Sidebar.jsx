@@ -32,7 +32,7 @@ const routes = [
          </Link>
         </Stack>
         <Stack direction="column" sx={{color: '#fff', display: 'flex', alignItems: 'center', mb: 3}}>
-          <Link to="/EditCard" style={{textDecoration :'none'}} >
+          <Link to="/editnumber" style={{textDecoration :'none'}} >
            <Button style={{color: '#fff', direction: 'column'}}>
            <Stack direction="column" sx={{color: '#fff', mb: 3, alignItems: 'center'}}>
               <FolderIcon sx={{ fontSize: 27}}/>
@@ -42,7 +42,7 @@ const routes = [
             </Link>
         </Stack>
         <Stack direction="column" sx={{color: '#fff', mb: 3, alignItems: 'center'}}>
-          <Link to="/ChangePassCard" style={{textDecoration :'none'}}>
+          <Link to="/changepassword" style={{textDecoration :'none'}}>
           <Button sx={{color: '#fff', display: 'inline-flex', textDecoration: 'none'}}>
             <Stack direction="column" sx={{color: '#fff', mb: 3, alignItems: 'center'}}>
            <PersonRoundedIcon sx={{ fontSize: 27}}/>
