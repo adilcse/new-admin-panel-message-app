@@ -1,21 +1,9 @@
 import React from 'react';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import { motion } from 'framer-motion';
-import {FaHome} from 'react-icons/fa';
 import { Button, Stack, Typography } from '@mui/material';
 import SpeedIcon from '@mui/icons-material/Speed';
 import FolderIcon from '@mui/icons-material/Folder';
 import { Link } from 'react-router-dom';
-
-const routes = [
-  {
-    path: "/",
-    name: " Home",
-    icon: <FaHome/>,
-  }
-]
-
 
 
  const Sidebar = (props) => {
@@ -54,16 +42,5 @@ const routes = [
       
     </Stack>
   );
-
-  
-    return(
-       <div className='main-container'>
-        <motion.div >
-        <main>
-          {props.children}
-        </main>
-        </motion.div>
-    </div>
-    );
 }
 export default Sidebar;

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import LoginCard from './Card/LoginCard';
 import Navbar from './components/Navbar';
@@ -8,7 +7,7 @@ import ChangPassCard from './Card/ChangPassCard';
 import Sidebar from './components/Sidebar';
 import { Stack } from '@mui/material';
 import { useEffect, useState } from 'react'; 
-import {BrowserRouter as Router, Routes, Route, useLocation} from 'react-router-dom';
+import { Routes, Route, useLocation} from 'react-router-dom';
 import DashBord from './components/DashBord';
 import { loginApi, logoutApi, checkloginApi, bootstrapApi, changePasswordApi, updateMasterActionApi } from './service/auth';
 
@@ -64,7 +63,7 @@ function App() {
       const resp = await logoutApi();
       if (resp.status) {
         setLoggedIn(false);
-      } {
+      } else {
         alert(resp.message)
         setLoggedIn(false);
       }
@@ -117,7 +116,7 @@ function App() {
 
   useEffect(
     () => {
-      if (location.pathname == '/editnumber') {
+      if (location.pathname === '/editnumber') {
         setLoading(true);
         bootstrapApi().then(res=> {
           if(res && res.status) {
@@ -129,7 +128,6 @@ function App() {
           setLoading(false)
         });;
       }
-      console.log(location.pathname)
     },
     [location]
   )
@@ -150,7 +148,7 @@ function App() {
  ); 
 }
   return (
-    <LoginCard login={tryLogin} />
+    <LoginCard login={tryLogin} loading={isLoading} />
   )
 }
 

@@ -1,13 +1,12 @@
 
-import { Email, Visibility, VisibilityOff } from "@mui/icons-material";
-import React, {useState} from 'react';
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import 'tachyons'
-import { height } from "@mui/system";
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
+import { CircularProgress, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 const styles={
     width: '350px',
     padding: '10px',
@@ -20,7 +19,7 @@ const styles={
     marginTop:20,
 };
 
-const LoginCard=({login})=>{
+const LoginCard=({login, loading})=>{
     const [values, setValues] = React.useState({
         email: '',
         password: '',
@@ -44,6 +43,19 @@ const LoginCard=({login})=>{
         login(values)
       }
 
+      if (loading) {
+        return (
+          <Box
+          component="form"
+          style={styles}
+          noValidate
+          autoComplete="off"
+          className=' justify-center  mt6'
+        > 
+            <CircularProgress sx={{ margin:'auto'}} fontSize={30} />
+          </Box>
+        )
+      }
     return(
       <>
           <Box

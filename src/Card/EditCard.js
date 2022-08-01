@@ -1,4 +1,4 @@
-import { Card, Stack, TextField, Typography, Button, CircularProgress } from '@mui/material';
+import { Card, TextField, Typography, Button, CircularProgress } from '@mui/material';
 import React from 'react';
 
 const style={
@@ -7,8 +7,6 @@ const style={
     margin:'auto',
  borderRadius: '20px',
 
-    // marginBottom:'5rem',
-    // marginTop:'2%'
 }
 
 const EditCard=({data, onClick, loading})=>{
@@ -32,7 +30,11 @@ const EditCard=({data, onClick, loading})=>{
        onClick({to})
       }
       if (loading) {
-        <CircularProgress fontSize={30} />
+        return (
+          <Card sx={{ margin:'auto', p: 20}}>
+            <CircularProgress fontSize={30} />
+          </Card>
+          )
       }
     return(
         <>
@@ -40,7 +42,7 @@ const EditCard=({data, onClick, loading})=>{
             <Typography sx={{fontWeight:600,fontSize:'x-large',display:'flex',justifyContent:'center', mt: 3}}>Edit</Typography>
             
             <Typography sx={{fontWeight:500,fontSize:'medium',display:'flex',justifyContent:'center',marginTop:'4%'}} >number</Typography>
-            <TextField  sx={{height: '5px', width: '10rem', display: 'flex', ml: '5px',margin:'auto'}} value={to} onChange={event => setTo(event.target.value)} variant="outlined"  /> 
+            <TextField error={toError} sx={{height: '5px', width: '10rem', display: 'flex', ml: '5px',margin:'auto'}} value={to} onChange={event => setTo(event.target.value)} variant="outlined"  /> 
               <Button variant="contained" sx={{ display: 'flex', ml: '5px',margin:'auto',marginTop:'3rem'}} onClick={handleSend}>Submit</Button>
         </Card>
         </>

@@ -1,24 +1,11 @@
 import React, { useState } from "react";
-import { Stack, Box, CircularProgress } from "@mui/material";
+import { Stack, CircularProgress } from "@mui/material";
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from "react-router-dom";
-
-
-
-const bull = (
-    <Box
-      component="span"
-      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-      •
-    </Box>
-  );
-
   const categoryButtons = [
     {
         id: 'yes',
@@ -33,7 +20,7 @@ const LogOut=(props)=>{
   let navigate = useNavigate();
     const [selectedButton, setSelectedButton] = useState(categoryButtons[0].id);
     const onButtonClicked = (id) => {
-      if (id == 'no') {
+      if (id === 'no') {
       } else {
         props.logout()
       }
@@ -41,7 +28,11 @@ const LogOut=(props)=>{
       setSelectedButton(id)
     }
     if (props.loading) {
-      <CircularProgress fontSize={30} />
+      return (
+        <Card sx={{ margin:'auto', p: 20}}>
+          <CircularProgress fontSize={30} />
+        </Card>
+      )
     }
     return(
         <>
