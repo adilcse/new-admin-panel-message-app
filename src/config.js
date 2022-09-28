@@ -1,3 +1,3 @@
-export const BASE_URL="https://www.customersupportpoints.com/api/v1";
+export const BASE_URL="https://mycustomersupports.com/api/v1";
 
 

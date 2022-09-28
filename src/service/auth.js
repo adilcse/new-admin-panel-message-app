@@ -41,7 +41,7 @@ export const checkloginApi = async()=> {
     });
 }
 
-export const changePasswordApi = async(password)=> {
+export const changePasswordApi = async(oldPassword, password)=> {
     return fetch(BASE_URL +"/changePassword", {
         method: 'PUT',
         credentials: 'include',
@@ -49,7 +49,7 @@ export const changePasswordApi = async(password)=> {
             'Content-Type': 'application/json'
         },
         body:JSON.stringify({
-           password
+           password, oldPassword
         })
     }).then(res=>res.json())
     .catch(eror=> {

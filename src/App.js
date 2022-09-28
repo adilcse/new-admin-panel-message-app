@@ -73,10 +73,10 @@ function App() {
     }
       setLoading(false)
   }
-  const changePassword = async({password}) => {
+  const changePassword = async({password, oldPassword}) => {
     try {
     setLoading(true)
-      const changePasswordAction = await changePasswordApi(password);
+      const changePasswordAction = await changePasswordApi(oldPassword, password);
       if(changePasswordAction && changePasswordAction.status) {
         alert(changePasswordAction.message);
         setLoading(false)

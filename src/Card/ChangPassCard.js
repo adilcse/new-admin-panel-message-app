@@ -11,6 +11,7 @@ borderRadius: '20px',
 const ChangPassCard = ({handleSendClicked, loading}) => {
   const [password, setPassword] = React.useState("");
   const [cpassword, setCPassword] = React.useState("");
+  const [opassword, setOPassword] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const handleSend = () => {
     if(password.length < 6) {
@@ -24,7 +25,7 @@ const ChangPassCard = ({handleSendClicked, loading}) => {
       return;
     }
     setPasswordError(false)
-   handleSendClicked({password}).then(resp=> {
+   handleSendClicked({oldPassword: opassword, password}).then(resp=> {
     if(resp){
       setPassword("");
       setCPassword("");
@@ -43,10 +44,13 @@ const ChangPassCard = ({handleSendClicked, loading}) => {
         <Card sx={style}>
             <Typography sx={{fontWeight:600,fontSize:'x-large',display:'flex',justifyContent:'center', mt: 3}}>Change password</Typography>
             
+            <Typography  sx={{fontWeight:500,fontSize:'medium',display:'flex',justifyContent:'center',marginTop:'5%'}} >Old password</Typography>
+            <TextField type="password" sx={{width: '10rem', display: 'flex', ml: '5px',margin:'auto'}} value={opassword} onChange={event => setOPassword(event.target.value)} variant="outlined"  /> 
             <Typography  sx={{fontWeight:500,fontSize:'medium',display:'flex',justifyContent:'center',marginTop:'5%'}} >New password</Typography>
-            <TextField type="password" sx={{height: '5px', width: '10rem', display: 'flex', ml: '5px',margin:'auto'}} value={password} onChange={event => setPassword(event.target.value)} variant="outlined"  /> 
-            <Typography sx={{fontWeight:500,fontSize:'medium',display:'flex',justifyContent:'center',marginTop:'15%'}} >Confirm password</Typography>
-            <TextField error={passwordError} sx={{height: '5px', width: '10rem', display: 'flex', ml: '5px',margin:'auto'}} value={cpassword} onChange={event => setCPassword(event.target.value)}  variant="outlined"  />
+            <TextField type="password" sx={{ width: '10rem', display: 'flex', ml: '5px',margin:'auto'}} value={password} onChange={event => setPassword(event.target.value)} variant="outlined"  /> 
+            
+            <Typography sx={{fontWeight:500,fontSize:'medium',display:'flex',justifyContent:'center',marginTop:'5%'}} >Confirm password</Typography>
+            <TextField error={passwordError} sx={{ width: '10rem', display: 'flex', ml: '5px',margin:'auto'}} value={cpassword} onChange={event => setCPassword(event.target.value)}  variant="outlined"  />
               <Button variant="contained"  sx={{ display: 'flex', ml: '5px',margin:'auto',marginTop:'3rem'}} onClick={handleSend}>Submit</Button>
         </Card>
       
