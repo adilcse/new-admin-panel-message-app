@@ -12,7 +12,7 @@ function Navbar(props){
     return(
         <Box sx={{ flexGrow: 1 }}>
            
-      <AppBar sx={{position:'sticky'}}>
+      <AppBar className="top-bar" sx={{position:'sticky'}}>
         <Toolbar>
           <IconButton
             size="large"
