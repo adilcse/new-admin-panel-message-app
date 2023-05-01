@@ -5,6 +5,8 @@ import Logout from './components/Logout';
 import EditCard from './Card/EditCard';
 import ChangPassCard from './Card/ChangPassCard';
 import Sidebar from './components/Sidebar';
+import Table from './components/Table';
+
 import { Stack } from '@mui/material';
 import { useEffect, useState } from 'react'; 
 import { Routes, Route, useLocation} from 'react-router-dom';
@@ -139,11 +141,12 @@ function App() {
       <Stack direction="row">
       <Sidebar expandedMenu={expandedMenu} />
       <Routes>
-        <Route path="/logout" element={<Logout loading={isLoading}  logout={logout}/>} />
-        <Route path="/editnumber" element={<EditCard loading={isLoading} setMRAction={setMRAction} data={MRAction} onClick={handleMRActionSend} />} />
-        <Route path="/changepassword" element={<ChangPassCard loading={isLoading} handleSendClicked={changePassword}/>} />
-        <Route path="/" element={<DashBord loading={isLoading}/>} />
-        </Routes>
+          <Route path="/logout" element={<Logout loading={isLoading}  logout={logout}/>} />
+          <Route path="/editnumber" element={<EditCard loading={isLoading} setMRAction={setMRAction} data={MRAction} onClick={handleMRActionSend} />} />
+          <Route path="/changepassword" element={<ChangPassCard loading={isLoading} handleSendClicked={changePassword}/>} />
+          <Route path="/" element={<DashBord loading={isLoading}/>} />
+          <Route path="messages" element={<Table/>} />
+       </Routes>
       </Stack></>
  ); 
 }
