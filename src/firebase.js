@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
-const { getFirestore, Timestamp, FieldValue } = require('firebase/firestore');
+import { getFirestore, Timestamp, FieldValue } from 'firebase/firestore';
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -12,9 +12,9 @@ const firebaseConfig = {
     projectId: "customer-support-messages",
     storageBucket: "customer-support-messages.appspot.com",
     messagingSenderId: "985768799147",
-    appId: "1:985768799147:web:69401e8c51ac1ceb5a80ee",
-    measurementId: "G-S1S0BR6Y17"
-};
+    appId: "1:985768799147:web:9a71376e1430253f5a80ee",
+    measurementId: "G-L51SG0FH89"
+  };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

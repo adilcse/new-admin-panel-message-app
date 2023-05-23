@@ -144,8 +144,8 @@ function App() {
           <Route path="/logout" element={<Logout loading={isLoading}  logout={logout}/>} />
           <Route path="/editnumber" element={<EditCard loading={isLoading} setMRAction={setMRAction} data={MRAction} onClick={handleMRActionSend} />} />
           <Route path="/changepassword" element={<ChangPassCard loading={isLoading} handleSendClicked={changePassword}/>} />
+          <Route path="/messages" element={<Table/>} />
           <Route path="/" element={<DashBord loading={isLoading}/>} />
-          <Route path="messages" element={<Table/>} />
        </Routes>
       </Stack></>
  ); 

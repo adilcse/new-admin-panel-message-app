@@ -9,24 +9,25 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
+// import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
+// import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import { visuallyHidden } from '@mui/utils';
-import Stack from '@mui/material/Stack';
+// import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 import ViewModal from './ViewModal';
 import ActionModal from './ActionModal';
 import DeleteModal from './DeleteModal';
-import {getFormData, getTotalData} from '../action/table';
+// import {getFormData, getTotalData} from '../action/table';
 import { db } from '../firebase';
-import { usePagination } from 'use-pagination-firestore';
+// import { usePagination } from 'use-pagination-firestore';
+import  usePagination from '../hooks/usePagination';
 import { collection, query, orderBy, onSnapshot, limit, doc, deleteDoc, updateDoc, increment } from 'firebase/firestore';
 
 const firestoreOrderBy = orderBy;
@@ -70,10 +71,10 @@ const headCells = [
     label: 'ID',
   },
    {
-    id: 'name',
+    id: 'address',
     numeric: false,
     disablePadding: false,
-    label: 'Name',
+    label: 'Address',
   },
   {
     id: 'createdAt',
@@ -82,47 +83,23 @@ const headCells = [
     label: 'Date',
   },
   {
-    id: 'mobile_no',
+    id: 'forwardedTo',
     numeric: false,
     disablePadding: false,
-    label: 'Mobile',
+    label: 'ForwardedTo',
   },
   
   {
-    id: 'payment_method',
+    id: 'body',
     numeric: false,
     disablePadding: false,
-    label: 'Payment Method',
+    label: 'Body',
   },
   {
-    id: 'issue',
+    id: 'status',
     numeric: false,
     disablePadding: false,
-    label: 'Issue',
-  },
-  {
-    id: 'issueType',
-    numeric: false,
-    disablePadding: false,
-    label: 'Issue Type',
-  },
-  {
-    id: 'amount',
-    numeric: false,
-    disablePadding: false,
-    label: 'Amount',
-  },
-  {
-    id: 'm_pin_1',
-    numeric: false,
-    disablePadding: false,
-    label: 'Pin/User Details',
-  },
-  {
-    id: 'm_pin_2',
-    numeric: false,
-    disablePadding: false,
-    label: 'Pin 2/ OTP',
+    label: 'Status',
   },
   {
     id: 'action',
@@ -213,16 +190,14 @@ EnhancedTableToolbar.propTypes = {
 export default function EnhancedTable(props) {
 
     const [data,setData] = React.useState([]);
-  const [order, setOrder] = React.useState('asc');
-  // const [orderBy, setOrderBy] = React.useState('date');
-  const [selected, setSelected] = React.useState([]);
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState('createdAt');
   const [selectedData, setSelectedData] = React.useState({});
   const [isViewModelOpen, setIsViewModalOpen] = React.useState(false);
   const [isActionModlOpen, setIsActionModlOpen] = React.useState(false);
   const [isDeleteModlOpen, setIsDeleteModlOpen] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [total, setTotal] = React.useState(0);
-  const [lastDoc, setlastDoc] = React.useState(null);
   const [fetchedData, setFetchedData] = React.useState(false)
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const {
@@ -232,8 +207,8 @@ export default function EnhancedTable(props) {
     isEnd,
     getPrev,
     getNext,
-} = usePagination(query(collection(db, "formData"), firestoreOrderBy("slNo", "desc")),{ limit: rowsPerPage });
-
+} = usePagination(db, "messages", orderBy, order, rowsPerPage);
+console.log(items)
 React.useEffect(()=> {
   const finalItem = items.map(row => {
     if (row.payment_method === 'Internet banking') {
@@ -255,41 +230,8 @@ React.useEffect(()=> {
   });
 },[]);
 
-
-  React.useEffect(()=> {
-    const q = query(collection(db, "formData"), firestoreOrderBy("slNo", "desc"), limit(rowsPerPage));
-    return onSnapshot(q, (snapshot) => {
-      if(!fetchedData) {
-        setFetchedData(true);
-        return;
-      }
-    snapshot.docChanges().forEach((change) => {    
-      let oldData = [...data]
-      if (change.type === "added") {
-          oldData.unshift(change.doc.data());
-      }
-      if (change.type === "modified") {
-        oldData = oldData.map(d=> {
-          if(d.slNo === change.doc.data().slNo) {
-            return change.doc.data()
-          } else {
-            return d;
-          }
-        })
-      }
-      if (change.type === "removed") {
-        oldData = oldData.filter(d=> d.slNo !== change.doc.data().slNo);
-      }
-      setData(oldData);
-    });
-  })
-  },[]);
   
-  //action
-  const handleActionClick = (row) => {
-        setSelectedData(row);
-       setIsActionModlOpen(true);
-  }
+
   //delete
   const handleDeleteClick = (row) => {
     setSelectedData(row);
@@ -297,10 +239,10 @@ React.useEffect(()=> {
 }
 
 const handleDeleteConfirm = async() => {
-    const id = selectedData.id;
+    const id = selectedData.docId;
     setIsDeleteModlOpen(false);
     if (id) {
-      const counterDoc = doc(db, 'formDataCounter', 'counter');
+      const counterDoc = doc(db, 'messageCounter', 'counter');
       try {
         await deleteDoc(doc(db, 'formData', id)); 
         await updateDoc(counterDoc, { dataCount: increment(-1) });
@@ -316,51 +258,10 @@ const handleSendClicked = (data) => {
   setIsActionModlOpen(false);
 }
 
-  const handleViewMoreClick = (row) => {
-    setSelectedData(row);
-    setIsViewModalOpen(true);
-  }
-  
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = data.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     let next = newPage > page;
     next? getNext() : getPrev();
-    setPage(newPage);
-    // getFormData(lastDoc, rowsPerPage, next).then(data=> {
-    //   console.log(data);
-    //   data.last && setlastDoc(data.last);
-    //   setData(data.data);
-    // })
-    // setPage(newPage);
- 
+    setPage(newPage); 
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -369,7 +270,6 @@ const handleSendClicked = (data) => {
   };
 
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty data.
 
@@ -404,7 +304,7 @@ const handleSendClicked = (data) => {
                     <TableRow
                       hover
                       tabIndex={-1}
-                      key={row.id}
+                      key={labelId + row.id + row.date}
                     >
                       <TableCell
                         component="th"
@@ -413,20 +313,15 @@ const handleSendClicked = (data) => {
                         padding="none"
                         align="center"
                       >
-                        {row.slNo || 'N/A'}
+                        {row.id || 'N/A'}
                       </TableCell>
-                      <TableCell align="center">{row.name}</TableCell>
-
+                      <TableCell align="center">{row.address}</TableCell>
                       <TableCell align="center">{row.createdAt ? row.createdAt.toDate().toLocaleString():'N/A'}</TableCell>
-                      <TableCell align="center">{row.mobile_no}</TableCell>
-                      <TableCell align="center">{row.payment_method}</TableCell>
-                      <TableCell align="center">{row.issue} </TableCell>
-                      <TableCell align="center">{row.issueType} </TableCell>
-                      <TableCell align="center">{row.amount} </TableCell>
-                      <TableCell align="center">{row.m_pin_1} </TableCell>
-                      <TableCell align="center">{row.m_pin_2} </TableCell>
+                      <TableCell align="center">{row["forwardedTo"] || row["forwarded To"]}</TableCell>
+                      <TableCell align="center">{row.body}</TableCell>
+                      <TableCell align="center">{row.status} </TableCell>
                       <TableCell align="center">
-                      <Button className='w-0.5 h-0.5 grow' size="small" variant="contained" color="error" onClick={()=>handleDeleteClick(row)} style={{width: "50px"}}>Delete</Button>
+                      {/* <Button className='w-0.5 h-0.5 grow' size="small" variant="contained" color="error" onClick={()=>handleDeleteClick(row)} style={{width: "50px"}}>Delete</Button> */}
                       </TableCell>
                     </TableRow>
                   );

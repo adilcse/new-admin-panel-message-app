@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const Sidebar = (props) => {
   return (
     <Stack sx={{
-      background: '#9ba3eb', height: '55rem', width: props.expandedMenu ? '150px' : '50px'
+      background: '#9ba3eb', height: '90vh', width: props.expandedMenu ? '150px' : '50px'
       , boxShadow: 'rgba(99, 99, 99, 0.3) 4px 0px 8px 0px', mr: 2
     }}>
 
