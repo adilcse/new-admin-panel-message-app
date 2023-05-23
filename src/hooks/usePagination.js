@@ -55,7 +55,7 @@ const usePagination = (firestore, collectionPath, column, direction, pageSize = 
         queryList.push(startAfter(lastDoc));
       }
       const q = query(...queryList);
-    return onSnapshot(q, (snapshot) => {
+    const unsubscribe =  onSnapshot(q, (snapshot) => {
       if(!fetchedData) {
         setFetchedData(true);
         return;
@@ -63,6 +63,7 @@ const usePagination = (firestore, collectionPath, column, direction, pageSize = 
     snapshot.docChanges().forEach((change) => {   
         const changedData = {docId: change.doc.id, ...change.doc.data()} 
       let oldData = [...items]
+      console.log(change)
       if (change.type === "added") {
           oldData.unshift(changedData);
       }
@@ -81,6 +82,7 @@ const usePagination = (firestore, collectionPath, column, direction, pageSize = 
       setItems(oldData);
     });
   })
+  return () => unsubscribe;
   },[]);
 
   return { getNext, getPrev, isStart, isEnd, isLoading, items };
