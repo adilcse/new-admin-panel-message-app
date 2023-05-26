@@ -187,6 +187,10 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
+const filterDate = new Date();
+filterDate.setFullYear(2023, 5, 26);
+
+const whereFilter = ["createdAt", ">", filterDate];
 export default function EnhancedTable(props) {
 
     const [data,setData] = React.useState([]);
@@ -207,7 +211,7 @@ export default function EnhancedTable(props) {
     isEnd,
     getPrev,
     getNext,
-} = usePagination(db, "messages", orderBy, order, rowsPerPage);
+} = usePagination(db, "messages", orderBy, order, rowsPerPage, whereFilter);
 const counterDoc = doc(db, 'messageCounter', 'counter');
 React.useEffect(()=> {
   setData(items);
@@ -215,6 +219,7 @@ React.useEffect(()=> {
 
 React.useEffect(()=> {
   return onSnapshot(counterDoc, (doc) => {
+    console.log(doc.data())
     const t = doc.data().messagesCount || 0
     setTotal(t);
   });

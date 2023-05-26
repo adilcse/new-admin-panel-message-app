@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-import { collection, query, getDocs, orderBy, limit, startAfter, onSnapshot } from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, limit, startAfter, onSnapshot, where } from 'firebase/firestore';
 
-const usePagination = (firestore, collectionPath, column, direction, pageSize = 10) => {
+const usePagination = (firestore, collectionPath, column, direction, pageSize = 10, filter = null) => {
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastDoc, setLastDoc] = useState(null);
@@ -31,6 +31,9 @@ const usePagination = (firestore, collectionPath, column, direction, pageSize = 
       if (!isStart) {
         queryList.push(startAfter(lastDoc));
       }
+      if (filter) {
+        queryList.push(where(filter[0], filter[1], filter[2]))
+      }
       const q = query(...queryList);
       const snapshot = await getDocs(q);
 
@@ -53,6 +56,9 @@ const usePagination = (firestore, collectionPath, column, direction, pageSize = 
     const queryList = [collection(firestore, collectionPath), orderBy(column, direction), limit(pageSize)]
       if (!isStart) {
         queryList.push(startAfter(lastDoc));
+      }
+      if (filter) {
+        queryList.push(where(filter[0], filter[1], filter[2]))
       }
       const q = query(...queryList);
     const unsubscribe =  onSnapshot(q, (snapshot) => {
