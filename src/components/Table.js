@@ -188,7 +188,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 const filterDate = new Date();
-filterDate.setFullYear(2023, 5, 26);
+filterDate.setFullYear(2023, 4, 26);
 
 const whereFilter = ["createdAt", ">", filterDate];
 export default function EnhancedTable(props) {
@@ -219,7 +219,6 @@ React.useEffect(()=> {
 
 React.useEffect(()=> {
   return onSnapshot(counterDoc, (doc) => {
-    console.log(doc.data())
     const t = doc.data().messagesCount || 0
     setTotal(t);
   });
