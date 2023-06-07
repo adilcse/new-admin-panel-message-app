@@ -202,7 +202,7 @@ export default function EnhancedTable(props) {
   const [isDeleteModlOpen, setIsDeleteModlOpen] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [total, setTotal] = React.useState(0);
-  const [fetchedData, setFetchedData] = React.useState(false)
+  const [fetchedData, setFetchedData] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const {
     items,
@@ -211,7 +211,7 @@ export default function EnhancedTable(props) {
     isEnd,
     getPrev,
     getNext,
-} = usePagination(db, "messages", orderBy, order, rowsPerPage, whereFilter);
+} = usePagination(db, "messages", orderBy, order, rowsPerPage, whereFilter, fetchedData);
 const counterDoc = doc(db, 'messageCounter', 'counter');
 React.useEffect(()=> {
   setData(items);
@@ -240,6 +240,7 @@ const handleDeleteConfirm = async() => {
         console.log("deliting doc", selectedData);
         await deleteDoc(doc(db, 'messages', id)); 
         console.log("doc deleted")
+        // setFetchedData(o => o+1);
         await updateDoc(counterDoc, { messagesCount: increment(-1) });
       } catch (err) {
         console.log(err)
