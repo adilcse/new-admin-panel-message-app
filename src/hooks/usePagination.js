@@ -85,6 +85,7 @@ const usePagination = (firestore, collectionPath, column, direction, pageSize = 
   
       snapshot.docChanges().forEach((change) => {
         const changedData = { docId: change.doc.id, ...change.doc.data() };
+        console.log(change)
         setItems((oldItems) => {
           let updatedItems = [...oldItems];
   
