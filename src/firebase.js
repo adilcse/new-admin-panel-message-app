@@ -7,14 +7,14 @@ import { getFirestore, Timestamp, FieldValue } from 'firebase/firestore';
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
 const firebaseConfig = {
-    apiKey: "AIzaSyCqVrpeqdjkhKC_3Ax7t8OuUhf8M0S2npg",
-    authDomain: "customer-support-messages.firebaseapp.com",
-    projectId: "customer-support-messages",
-    storageBucket: "customer-support-messages.appspot.com",
-    messagingSenderId: "985768799147",
-    appId: "1:985768799147:web:9a71376e1430253f5a80ee",
-    measurementId: "G-L51SG0FH89"
-  };
+  apiKey: "AIzaSyDq4HDTfSaR3DunZKnM3YoRcjtdaAU0rB0",
+  authDomain: "customer-support-v3.firebaseapp.com",
+  projectId: "customer-support-v3",
+  storageBucket: "customer-support-v3.appspot.com",
+  messagingSenderId: "720099373220",
+  appId: "1:720099373220:web:a97a35db627fc1dc463631",
+  measurementId: "G-F9P5WV2WFE"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
