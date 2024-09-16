@@ -11,8 +11,8 @@ const DashBord = (props) => {
   }
   return (
   
-    <Stack sx= {{ display: 'flex', alignItems: 'center', margin: 'auto'}}>
-        <Typography sx={{fontSize: 70 ,fontFamily: 'Caveat, cursive', 
+    <Stack sx= {{ display: 'flex', maxHeight: '100vh', alignItems: 'center', margin: 'auto'}}>
+        <Typography sx={{fontSize: 70 ,fontFamily: 'Rubik Pixels, cursive', 
         fontWeight: 600, color: '#14213d' }}>Welcome to Dashboard :)</Typography>
       </Stack>
   );
